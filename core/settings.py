@@ -124,6 +124,10 @@ STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'apps/static'),
 )
 
+# Use Whitenoise to serve static files from STATICFILES_DIRS if they haven't been collected
+WHITENOISE_USE_FINDERS = True
+
+
 
 #############################################################
 #############################################################
