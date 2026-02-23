@@ -1,0 +1,92 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+    .footer-luxury {
+        background: #0a0a0f;
+        border-top: 1px solid rgba(255, 255, 255, 0.055);
+        padding: 28px 36px;
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family: 'DM Sans', sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer-luxury::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, #b8965a, transparent);
+    }
+
+    .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .footer-copy {
+        font-size: 11.5px;
+        font-weight: 300;
+        color: rgba(240, 236, 228, 0.28);
+        letter-spacing: 0.03em;
+        margin: 0;
+    }
+
+    .footer-copy a {
+        color: rgba(184, 150, 90, 0.7);
+        text-decoration: none;
+        font-weight: 400;
+        transition: color 0.2s;
+    }
+
+    .footer-copy a:hover {
+        color: #b8965a;
+    }
+
+    .footer-links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .footer-links li a {
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(240, 236, 228, 0.28);
+        text-decoration: none;
+        font-weight: 400;
+        transition: color 0.2s;
+    }
+
+    .footer-links li a:hover {
+        color: #b8965a;
+    }
+</style>
+
+<footer class="footer-luxury">
+    <div class="footer-inner">
+        <p class="footer-copy">
+            &copy; <a href="" target="_blank">Crm</a>
+            &mdash; Coded by <a href="" target="_blank">Harman Singh</a>
+        </p>
+        <ul class="footer-links">
+            <li>
+                <a href="https://appseed.us/admin-dashboards/django-dashboard-volt" target="_blank">
+                    Jspark Django Dashboard
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>

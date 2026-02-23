@@ -1,0 +1,443 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}Leads{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+    .leads-root {
+        padding: 40px 32px 60px;
+        font-family: 'DM Sans', sans-serif;
+        position: relative;
+    }
+
+    @media (max-width: 560px) {
+        .leads-root {
+            padding: 24px 16px 48px;
+        }
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ── Header ── */
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+        gap: 16px;
+        animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .page-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #b8965a;
+        font-weight: 400;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .page-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(28px, 4vw, 42px);
+        font-weight: 300;
+        color: #f0ece4;
+        line-height: 1.1;
+        margin: 0;
+        letter-spacing: -0.01em;
+    }
+
+    .page-title em {
+        font-style: italic;
+        color: #b8965a;
+    }
+
+    .header-divider {
+        width: 28px;
+        height: 1px;
+        background: linear-gradient(90deg, #b8965a, transparent);
+        margin: 8px 0 4px;
+    }
+
+    .page-subtitle {
+        font-size: 12px;
+        color: rgba(240, 236, 228, 0.3);
+        font-weight: 300;
+        letter-spacing: 0.03em;
+        margin: 0;
+    }
+
+    /* ── Buttons ── */
+    .btn-gold {
+        padding: 10px 22px;
+        background: linear-gradient(135deg, #b8965a 0%, #d4af74 50%, #b8965a 100%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        color: #0a0a0f;
+        border: none;
+        border-radius: 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-position 0.4s ease, transform 0.15s ease;
+        text-decoration: none;
+        display: inline-block;
+        white-space: nowrap;
+    }
+
+    .btn-gold:hover {
+        background-position: 0% 0;
+        transform: translateY(-1px);
+        color: #0a0a0f;
+        text-decoration: none;
+    }
+
+    .btn-edit {
+        padding: 5px 12px;
+        background: transparent;
+        color: rgba(184, 150, 90, 0.7);
+        border: 1px solid rgba(184, 150, 90, 0.25);
+        border-radius: 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 9.5px;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+        display: inline-block;
+    }
+
+    .btn-edit:hover {
+        color: #b8965a;
+        border-color: #b8965a;
+        background: rgba(184, 150, 90, 0.06);
+        text-decoration: none;
+    }
+
+    .btn-delete {
+        padding: 5px 12px;
+        background: transparent;
+        color: rgba(248, 113, 113, 0.45);
+        border: 1px solid rgba(248, 113, 113, 0.18);
+        border-radius: 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 9.5px;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: color 0.2s, border-color 0.2s, background 0.2s;
+        display: inline-block;
+    }
+
+    .btn-delete:hover {
+        color: #f87171;
+        border-color: rgba(248, 113, 113, 0.5);
+        background: rgba(248, 113, 113, 0.05);
+        text-decoration: none;
+    }
+
+    /* ── Alert ── */
+    .alert-luxury {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+        background: rgba(52, 211, 153, 0.07);
+        border: 1px solid rgba(52, 211, 153, 0.22);
+        border-radius: 2px;
+        font-size: 12.5px;
+        font-weight: 300;
+        color: #34d399;
+        letter-spacing: 0.02em;
+        margin-bottom: 24px;
+        animation: fadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .alert-close {
+        background: none;
+        border: none;
+        color: rgba(52, 211, 153, 0.5);
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 1;
+        padding: 0;
+        flex-shrink: 0;
+        transition: color 0.2s;
+    }
+
+    .alert-close:hover {
+        color: #34d399;
+    }
+
+    /* ── Table Card ── */
+    .table-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.065);
+        border-radius: 2px;
+        overflow: hidden;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.38);
+        animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+        position: relative;
+    }
+
+    .table-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 1px;
+        background: linear-gradient(90deg, #b8965a, transparent);
+        z-index: 1;
+    }
+
+    /* ── Table ── */
+    .crm-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .crm-table thead tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .crm-table thead th {
+        padding: 14px 14px;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(240, 236, 228, 0.28);
+        font-weight: 400;
+        text-align: left;
+        font-family: 'DM Sans', sans-serif;
+        white-space: nowrap;
+    }
+
+    .crm-table thead th:first-child {
+        padding-left: 24px;
+    }
+
+    .crm-table thead th:last-child {
+        padding-right: 24px;
+        text-align: right;
+    }
+
+    .crm-table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.038);
+        transition: background 0.15s ease;
+    }
+
+    .crm-table tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .crm-table tbody tr:hover {
+        background: rgba(184, 150, 90, 0.03);
+    }
+
+    .crm-table tbody td {
+        padding: 15px 14px;
+        color: rgba(240, 236, 228, 0.45);
+        font-weight: 300;
+        letter-spacing: 0.01em;
+        vertical-align: middle;
+    }
+
+    .crm-table tbody td:first-child {
+        padding-left: 24px;
+    }
+
+    .crm-table tbody td:last-child {
+        padding-right: 24px;
+        text-align: right;
+    }
+
+    .td-counter {
+        color: rgba(240, 236, 228, 0.2);
+        font-size: 11px;
+    }
+
+    .td-name {
+        color: #f0ece4;
+        font-weight: 400;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 15px;
+        letter-spacing: 0.01em;
+    }
+
+    /* ── Badges ── */
+    .badge-crm {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 2px;
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 400;
+        white-space: nowrap;
+    }
+
+    .badge-new {
+        background: rgba(96, 165, 250, 0.1);
+        color: #60a5fa;
+        border: 1px solid rgba(96, 165, 250, 0.25);
+    }
+
+    .badge-contacted {
+        background: rgba(184, 150, 90, 0.1);
+        color: #d4af74;
+        border: 1px solid rgba(184, 150, 90, 0.28);
+    }
+
+    .badge-converted {
+        background: rgba(52, 211, 153, 0.1);
+        color: #34d399;
+        border: 1px solid rgba(52, 211, 153, 0.25);
+    }
+
+    /* ── Action buttons spacing ── */
+    .action-cell {
+        display: flex;
+        justify-content: flex-end;
+        gap: 6px;
+        align-items: center;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+        padding: 64px 24px;
+        text-align: center;
+    }
+
+    .empty-icon {
+        font-size: 2.5rem;
+        opacity: 0.15;
+        margin-bottom: 16px;
+    }
+
+    .empty-text {
+        font-size: 12.5px;
+        color: rgba(240, 236, 228, 0.28);
+        font-weight: 300;
+        letter-spacing: 0.04em;
+        margin: 0 0 12px;
+    }
+
+    .empty-link {
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #b8965a;
+        text-decoration: none;
+        font-weight: 400;
+        opacity: 0.75;
+        transition: opacity 0.2s;
+    }
+
+    .empty-link:hover {
+        opacity: 1;
+    }
+</style>
+
+<div class="leads-root">
+
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <span class="page-eyebrow">Pipeline</span>
+            <h2 class="page-title">All <em>Leads</em></h2>
+            <div class="header-divider"></div>
+            <p class="page-subtitle">{{ leads|length }} total lead{{ leads|length|pluralize }}</p>
+        </div>
+        <a href="{% url 'lead_add' %}" class="btn-gold">+ Add Lead</a>
+    </div>
+
+    <!-- Messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert-luxury">
+        <span>{{ message }}</span>
+        <button class="alert-close" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Table Card -->
+    <div class="table-card">
+        {% if leads %}
+        <div class="table-responsive">
+            <table class="crm-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th class="d-none d-md-table-cell">Phone</th>
+                        <th>Status</th>
+                        <th class="d-none d-md-table-cell">Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in leads %}
+                    <tr>
+                        <td class="td-counter">{{ forloop.counter }}</td>
+                        <td class="td-name">{{ lead.name }}</td>
+                        <td>{{ lead.email }}</td>
+                        <td class="d-none d-md-table-cell">{{ lead.phone|default:"—" }}</td>
+                        <td>
+                            {% if lead.status == 'New' %}
+                            <span class="badge-crm badge-new">New</span>
+                            {% elif lead.status == 'Contacted' %}
+                            <span class="badge-crm badge-contacted">Contacted</span>
+                            {% else %}
+                            <span class="badge-crm badge-converted">Converted</span>
+                            {% endif %}
+                        </td>
+                        <td class="d-none d-md-table-cell">{{ lead.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <div class="action-cell">
+                                <a href="{% url 'lead_edit' lead.pk %}" class="btn-edit">Edit</a>
+                                <a href="{% url 'lead_delete' lead.pk %}" class="btn-delete">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <p class="empty-text">No leads yet.</p>
+            <a href="{% url 'lead_add' %}" class="empty-link">Add your first lead →</a>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

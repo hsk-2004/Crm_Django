@@ -1,0 +1,323 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  /*
+   * KEY RULE: Only override visual styles here.
+   * Volt's .sidebar { position:fixed; width:260px } and
+   * main.content { margin-left:260px } are what keep the layout working.
+   * Do NOT change position, width, or display on .sidebar.
+   */
+
+  /* ── Sidebar skin ── */
+  .sidebar {
+    background: #0a0a0f !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.055) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  /* Ambient gradient glow */
+  .sidebar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(184, 150, 90, 0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 20% 100%, rgba(100, 80, 160, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .sidebar-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Brand block (desktop) ── */
+  .sidebar-brand-area {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .sidebar-brand-area::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 24px;
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, #b8965a, transparent);
+  }
+
+  .sidebar-brand-text {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: #f0ece4;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    display: block;
+    line-height: 1.2;
+  }
+
+  .sidebar-brand-text em {
+    color: #b8965a;
+    font-style: italic;
+  }
+
+  .sidebar-brand-sub {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 228, 0.3);
+    font-weight: 400;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ── Mobile topbar ── */
+  .navbar.navbar-theme-primary {
+    background: #0a0a0f !important;
+    border-bottom: 1px solid rgba(184, 150, 90, 0.15) !important;
+  }
+
+  .navbar.navbar-theme-primary .navbar-brand {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 18px !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.04em !important;
+    color: #f0ece4 !important;
+  }
+
+  /* ── Section label ── */
+  .nav-section-label {
+    font-size: 8.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240, 236, 228, 0.25);
+    font-weight: 400;
+    padding: 12px 24px 4px;
+    display: block;
+  }
+
+  /* ── Thin divider ── */
+  .nav-luxury-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 10px 24px;
+  }
+
+  /* ── Nav links ── */
+  .sidebar .nav-link {
+    color: rgba(240, 236, 228, 0.45) !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 12.5px !important;
+    font-weight: 300 !important;
+    letter-spacing: 0.02em !important;
+    padding: 10px 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    transition: color 0.2s ease, background 0.2s ease !important;
+    border-radius: 0 !important;
+    position: relative;
+  }
+
+  .sidebar .nav-link:hover,
+  .sidebar .nav-link:focus {
+    color: #f0ece4 !important;
+    background: rgba(184, 150, 90, 0.04) !important;
+    text-decoration: none !important;
+  }
+
+  .sidebar .nav-link .icon,
+  .sidebar .nav-link svg {
+    opacity: 0.55;
+    transition: opacity 0.2s;
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0;
+  }
+
+  .sidebar .nav-link:hover .icon,
+  .sidebar .nav-link:hover svg {
+    opacity: 1;
+  }
+
+  /* ── Active nav state ── */
+  .sidebar .nav-item.active>.nav-link {
+    color: #b8965a !important;
+    background: rgba(184, 150, 90, 0.06) !important;
+  }
+
+  .sidebar .nav-item.active>.nav-link svg,
+  .sidebar .nav-item.active>.nav-link .icon {
+    opacity: 1;
+  }
+
+  .sidebar .nav-item.active>.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: linear-gradient(180deg, #b8965a, rgba(184, 150, 90, 0.3));
+    border-radius: 0 1px 1px 0;
+  }
+
+  /* ── Sign out ── */
+  .sidebar .nav-link.signout-link {
+    color: rgba(248, 113, 113, 0.55) !important;
+  }
+
+  .sidebar .nav-link.signout-link:hover {
+    color: #f87171 !important;
+    background: rgba(248, 113, 113, 0.04) !important;
+  }
+
+  /* ── Sidebar text ── */
+  .sidebar .sidebar-text {
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 300;
+  }
+
+  .sidebar .sidebar-icon {
+    display: flex;
+    align-items: center;
+  }
+</style>
+
+<!-- Mobile Topbar — uses Volt's Bootstrap collapse JS untouched -->
+<nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
+  <a class="navbar-brand me-lg-5" href="/">
+    JSpark <em style="color:#b8965a;font-style:italic;">CRM</em>
+  </a>
+  <div class="d-flex align-items-center">
+    <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Sidebar — MUST keep class="sidebar d-lg-block" for Volt's fixed layout -->
+<nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
+  <div class="sidebar-inner px-4 pt-3">
+
+    <!-- Brand (desktop only) -->
+    <div class="sidebar-brand-area d-none d-lg-block">
+      <a href="/" class="sidebar-brand-text">JSpark <em>CRM</em></a>
+      <span class="sidebar-brand-sub">Management Suite</span>
+    </div>
+
+    <!-- Mobile user card -->
+    <div class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
+      <div class="d-flex align-items-center">
+        <div class="avatar-lg me-4">
+          <img src="/static/assets/img/team/profile-picture-3.jpg" class="card-img-top rounded-circle border-white"
+            alt="Profile">
+        </div>
+        <div class="d-block">
+          <h2 class="h5 mb-3" style="font-family:'Cormorant Garamond',serif;font-weight:400;color:#f0ece4;">
+            {% if request.user.is_authenticated %}Hi, {{ request.user.first_name|default:request.user.username }}{% else
+            %}Hi there{% endif %}
+          </h2>
+          <a href="/logout/" class="btn btn-secondary btn-sm d-inline-flex align-items-center">
+            <svg class="icon icon-xxs me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Sign Out
+          </a>
+        </div>
+      </div>
+      <div class="collapse-close d-md-none">
+        <a href="#sidebarMenu" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+          aria-expanded="true" aria-label="Toggle navigation">
+          <svg class="icon icon-xs" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Nav Items -->
+    <ul class="nav flex-column pt-3 pt-md-0">
+
+      <!-- CRM Section -->
+      <span class="nav-section-label">CRM</span>
+
+      <li class="nav-item {% if segment == 'crm_dashboard' %}active{% endif %}">
+        <a href="/crm/" class="nav-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+              <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+            </svg>
+          </span>
+          <span class="sidebar-text">CRM Dashboard</span>
+        </a>
+      </li>
+
+      <li class="nav-item {% if segment == 'leads' %}active{% endif %}">
+        <a href="/crm/leads/" class="nav-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+            </svg>
+          </span>
+          <span class="sidebar-text">Leads</span>
+        </a>
+      </li>
+
+      <li class="nav-item {% if segment == 'clients' %}active{% endif %}">
+        <a href="/crm/clients/" class="nav-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z"
+                clip-rule="evenodd" />
+            </svg>
+          </span>
+          <span class="sidebar-text">Clients</span>
+        </a>
+      </li>
+
+      <!-- Admin & Logout -->
+      <div class="nav-luxury-divider mt-2"></div>
+
+      <li class="nav-item">
+        <a href="/admin/" class="nav-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                clip-rule="evenodd" />
+            </svg>
+          </span>
+          <span class="sidebar-text">Admin Panel</span>
+        </a>
+      </li>
+
+      <div class="nav-luxury-divider"></div>
+
+      <li class="nav-item">
+        <a href="/logout/" class="nav-link signout-link d-flex align-items-center">
+          <span class="sidebar-icon">
+            <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </span>
+          <span class="sidebar-text">Sign Out</span>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</nav>

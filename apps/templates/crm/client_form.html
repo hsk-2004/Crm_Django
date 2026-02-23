@@ -1,0 +1,372 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+    .form-root {
+        padding: 40px 32px 60px;
+        font-family: 'DM Sans', sans-serif;
+    }
+
+    @media (max-width: 560px) {
+        .form-root {
+            padding: 24px 16px 48px;
+        }
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-luxury {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 36px;
+        list-style: none;
+        padding: 0;
+        animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .breadcrumb-luxury li {
+        font-size: 10.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+
+    .breadcrumb-luxury li a {
+        color: #b8965a;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+
+    .breadcrumb-luxury li a:hover {
+        opacity: 1;
+    }
+
+    .breadcrumb-luxury li.active {
+        color: rgba(240, 236, 228, 0.3);
+    }
+
+    .breadcrumb-divider {
+        color: rgba(184, 150, 90, 0.35);
+        font-size: 12px;
+    }
+
+    /* ── Form Card ── */
+    .form-card {
+        background: rgba(255, 255, 255, 0.033);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 2px;
+        overflow: hidden;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(184, 150, 90, 0.06) inset;
+        position: relative;
+        animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+        max-width: 540px;
+        margin: 0 auto;
+    }
+
+    .card-corner-tr {
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        width: 22px;
+        height: 22px;
+        border-top: 1px solid rgba(184, 150, 90, 0.5);
+        border-right: 1px solid rgba(184, 150, 90, 0.5);
+        pointer-events: none;
+    }
+
+    .card-corner-bl {
+        position: absolute;
+        bottom: -1px;
+        left: -1px;
+        width: 22px;
+        height: 22px;
+        border-bottom: 1px solid rgba(184, 150, 90, 0.25);
+        border-left: 1px solid rgba(184, 150, 90, 0.25);
+        pointer-events: none;
+    }
+
+    /* ── Card Header ── */
+    .form-card-header {
+        padding: 22px 32px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        position: relative;
+    }
+
+    .form-card-header::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 32px;
+        width: 32px;
+        height: 1px;
+        background: linear-gradient(90deg, #b8965a, transparent);
+    }
+
+    .form-eyebrow {
+        font-size: 9.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(240, 236, 228, 0.28);
+        font-weight: 400;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 24px;
+        font-weight: 300;
+        color: #f0ece4;
+        margin: 0;
+        letter-spacing: 0.01em;
+    }
+
+    .form-title em {
+        font-style: italic;
+        color: #b8965a;
+    }
+
+    /* ── Card Body ── */
+    .form-card-body {
+        padding: 28px 32px 32px;
+    }
+
+    /* ── Error alert ── */
+    .error-alert {
+        padding: 12px 14px;
+        background: rgba(248, 113, 113, 0.08);
+        border: 1px solid rgba(248, 113, 113, 0.25);
+        border-radius: 2px;
+        color: #f87171;
+        font-size: 13px;
+        font-weight: 300;
+        margin-bottom: 24px;
+        letter-spacing: 0.01em;
+    }
+
+    /* ── Field ── */
+    .field {
+        margin-bottom: 22px;
+        animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .field:nth-child(1) {
+        animation-delay: 0.12s;
+    }
+
+    .field:nth-child(2) {
+        animation-delay: 0.17s;
+    }
+
+    .field:nth-child(3) {
+        animation-delay: 0.22s;
+    }
+
+    .field:nth-child(4) {
+        animation-delay: 0.27s;
+    }
+
+    .field label {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(240, 236, 228, 0.4);
+        font-weight: 400;
+        margin-bottom: 8px;
+    }
+
+    .field label .required {
+        color: #b8965a;
+        margin-left: 2px;
+    }
+
+    /* Django renders inputs — we style via global override */
+    .form-control,
+    .form-select,
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+        width: 100% !important;
+        padding: 11px 14px !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(255, 255, 255, 0.09) !important;
+        border-radius: 2px !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 300 !important;
+        color: #f0ece4 !important;
+        box-sizing: border-box !important;
+        transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease !important;
+        outline: none !important;
+        letter-spacing: 0.01em !important;
+        appearance: none !important;
+    }
+
+    .form-control::placeholder,
+    input::placeholder,
+    textarea::placeholder {
+        color: rgba(240, 236, 228, 0.18) !important;
+        font-style: italic !important;
+    }
+
+    .form-control:focus,
+    .form-select:focus,
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: rgba(184, 150, 90, 0.55) !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 0 0 3px rgba(184, 150, 90, 0.07) !important;
+    }
+
+    .field-error {
+        font-size: 11px;
+        color: rgba(248, 113, 113, 0.75);
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        margin-top: 6px;
+        display: block;
+    }
+
+    /* ── Form Actions ── */
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 8px;
+        animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+
+    .btn-gold {
+        padding: 11px 26px;
+        background: linear-gradient(135deg, #b8965a 0%, #d4af74 50%, #b8965a 100%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        color: #0a0a0f;
+        border: none;
+        border-radius: 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-position 0.4s ease, transform 0.15s ease;
+        line-height: 1;
+    }
+
+    .btn-gold:hover {
+        background-position: 0% 0;
+        transform: translateY(-1px);
+    }
+
+    .btn-cancel {
+        padding: 10px 22px;
+        background: transparent;
+        color: rgba(240, 236, 228, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-block;
+        line-height: 1;
+        transition: color 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .btn-cancel:hover {
+        color: rgba(240, 236, 228, 0.6);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+</style>
+
+<div class="form-root">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb-luxury" aria-label="breadcrumb">
+        <li><a href="{% url 'client_list' %}">Clients</a></li>
+        <li><span class="breadcrumb-divider">›</span></li>
+        <li class="active">{{ title }}</li>
+    </ol>
+
+    <!-- Form Card -->
+    <div class="form-card">
+        <div class="card-corner-tr"></div>
+        <div class="card-corner-bl"></div>
+
+        <div class="form-card-header">
+            <span class="form-eyebrow">Client Record</span>
+            <h5 class="form-title">{{ title|slice:":6" }} <em>{{ title|slice:"6:" }}</em></h5>
+        </div>
+
+        <div class="form-card-body">
+
+            {% if form.non_field_errors %}
+            <div class="error-alert">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="field">
+                    <label for="{{ form.name.id_for_label }}">
+                        Full Name <span class="required">*</span>
+                    </label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                    <span class="field-error">{{ form.name.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.email.id_for_label }}">
+                        Email Address <span class="required">*</span>
+                    </label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <span class="field-error">{{ form.email.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.company.id_for_label }}">Company</label>
+                    {{ form.company }}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-gold">Save Client</button>
+                    <a href="{% url 'client_list' %}" class="btn-cancel">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

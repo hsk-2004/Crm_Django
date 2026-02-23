@@ -1,0 +1,448 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Sign UP {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+    .login-root {
+        min-height: 100vh;
+        background: #0a0a0f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        font-family: 'DM Sans', sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .login-root::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 60% 50% at 70% 20%, rgba(180, 140, 90, 0.08) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 60% at 20% 80%, rgba(100, 80, 160, 0.06) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .login-panel {
+        width: 100%;
+        max-width: 440px;
+        position: relative;
+        animation: panelIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes panelIn {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ── Header ── */
+    .login-header {
+        margin-bottom: 36px;
+        text-align: left;
+    }
+
+    .login-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #b8965a;
+        font-weight: 400;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .login-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(36px, 6vw, 52px);
+        font-weight: 300;
+        color: #f0ece4;
+        line-height: 1.1;
+        margin: 0 0 6px;
+        letter-spacing: -0.01em;
+    }
+
+    .login-title em {
+        font-style: italic;
+        color: #b8965a;
+    }
+
+    .login-divider {
+        width: 32px;
+        height: 1px;
+        background: linear-gradient(90deg, #b8965a, transparent);
+        margin: 18px 0;
+    }
+
+    .login-subtitle {
+        font-size: 13px;
+        color: rgba(240, 236, 228, 0.35);
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .login-subtitle strong {
+        color: rgba(232, 144, 144, 0.8);
+        font-weight: 400;
+    }
+
+    /* ── Card ── */
+    .login-card {
+        background: rgba(255, 255, 255, 0.033);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 2px;
+        padding: 36px 36px 32px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(184, 150, 90, 0.06) inset;
+        position: relative;
+    }
+
+    .corner-accent {
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        width: 22px;
+        height: 22px;
+        border-top: 1px solid rgba(184, 150, 90, 0.5);
+        border-right: 1px solid rgba(184, 150, 90, 0.5);
+        pointer-events: none;
+    }
+
+    .corner-accent-bl {
+        position: absolute;
+        bottom: -1px;
+        left: -1px;
+        width: 22px;
+        height: 22px;
+        border-bottom: 1px solid rgba(184, 150, 90, 0.25);
+        border-left: 1px solid rgba(184, 150, 90, 0.25);
+        pointer-events: none;
+    }
+
+    /* ── Fields ── */
+    .field {
+        margin-bottom: 20px;
+        animation: fieldIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .field:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .field:nth-child(2) {
+        animation-delay: 0.16s;
+    }
+
+    .field:nth-child(3) {
+        animation-delay: 0.22s;
+    }
+
+    @keyframes fieldIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .field label {
+        display: block;
+        font-size: 9.5px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(240, 236, 228, 0.4);
+        font-weight: 400;
+        margin-bottom: 8px;
+    }
+
+    /* Input group */
+    .input-group-luxury {
+        display: flex;
+        align-items: stretch;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.04);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        overflow: hidden;
+    }
+
+    .input-group-luxury:focus-within {
+        border-color: rgba(184, 150, 90, 0.55);
+        box-shadow: 0 0 0 3px rgba(184, 150, 90, 0.07);
+    }
+
+    .input-prefix {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        color: rgba(184, 150, 90, 0.45);
+        flex-shrink: 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .input-prefix svg {
+        width: 13px;
+        height: 13px;
+    }
+
+    .form-control {
+        flex: 1;
+        padding: 11px 14px !important;
+        background: transparent !important;
+        border: none !important;
+        outline: none !important;
+        font-family: 'DM Sans', sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 300 !important;
+        color: #f0ece4 !important;
+        letter-spacing: 0.01em;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: 100%;
+    }
+
+    .form-control::placeholder {
+        color: rgba(240, 236, 228, 0.18) !important;
+        font-style: italic;
+    }
+
+    /* ── Remember / Lost password row ── */
+    .meta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+    }
+
+    .remember-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        color: rgba(240, 236, 228, 0.38);
+        font-weight: 300;
+        letter-spacing: 0.02em;
+        user-select: none;
+    }
+
+    .remember-label input[type="checkbox"] {
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.04);
+        cursor: pointer;
+        flex-shrink: 0;
+        position: relative;
+        transition: border-color 0.2s, background 0.2s;
+    }
+
+    .remember-label input[type="checkbox"]:checked {
+        background: #b8965a;
+        border-color: #b8965a;
+    }
+
+    .remember-label input[type="checkbox"]:checked::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 4px;
+        width: 4px;
+        height: 7px;
+        border: 1.5px solid #0a0a0f;
+        border-top: none;
+        border-left: none;
+        transform: rotate(45deg);
+    }
+
+    .forgot-link {
+        font-size: 11px;
+        color: rgba(184, 150, 90, 0.55);
+        text-decoration: none;
+        letter-spacing: 0.06em;
+        transition: color 0.2s;
+    }
+
+    .forgot-link:hover {
+        color: #b8965a;
+    }
+
+    /* ── Submit ── */
+    .submit-btn {
+        width: 100%;
+        padding: 13px;
+        background: linear-gradient(135deg, #b8965a 0%, #d4af74 50%, #b8965a 100%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        color: #0a0a0f;
+        border: none;
+        border-radius: 2px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-position 0.4s ease, transform 0.15s ease;
+        display: block;
+    }
+
+    .submit-btn:hover {
+        background-position: 0% 0;
+        transform: translateY(-1px);
+    }
+
+    /* ── Footer ── */
+    .login-footer {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 12.5px;
+        color: rgba(240, 236, 228, 0.28);
+        letter-spacing: 0.02em;
+    }
+
+    .login-footer a {
+        color: #b8965a;
+        text-decoration: none;
+        font-weight: 400;
+        transition: opacity 0.2s;
+    }
+
+    .login-footer a:hover {
+        opacity: 0.75;
+    }
+</style>
+
+<main class="login-root">
+    <div class="login-panel">
+
+        <!-- Header -->
+        <div class="login-header">
+            <span class="login-eyebrow">Start Journey</span>
+            <h1 class="login-title">Create<br /><em>Account</em></h1>
+            <div class="login-divider"></div>
+            <p class="login-subtitle">
+                {% if msg %}
+                <strong>{{ msg|safe }}</strong>
+                {% else %}
+                Join us today. Enter your details below.
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Card -->
+        <div class="login-card">
+            <div class="corner-accent"></div>
+            <div class="corner-accent-bl"></div>
+
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="field">
+                    <label for="id_username">Username</label>
+                    <div class="input-group-luxury">
+                        <span class="input-prefix">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        {{ form.username }}
+                    </div>
+                    <span class="text-danger" style="font-size: 11px;">{{ form.username.errors }}</span>
+                </div>
+
+                <!-- Email -->
+                <div class="field">
+                    <label for="id_email">Email</label>
+                    <div class="input-group-luxury">
+                        <span class="input-prefix">
+                            <!-- Envelope -->
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                        </span>
+                        {{ form.email }}
+                    </div>
+                    <span class="text-danger" style="font-size: 11px;">{{ form.email.errors }}</span>
+                </div>
+
+                <!-- Password -->
+                <div class="field">
+                    <label for="id_password1">Password</label>
+                    <div class="input-group-luxury">
+                        <span class="input-prefix">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        {{ form.password1 }}
+                    </div>
+                    <span class="text-danger" style="font-size: 11px;">{{ form.password1.errors }}</span>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="field">
+                    <label for="id_password2">Confirm Password</label>
+                    <div class="input-group-luxury">
+                        <span class="input-prefix">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        {{ form.password2 }}
+                    </div>
+                    <span class="text-danger" style="font-size: 11px;">{{ form.password2.errors }}</span>
+                </div>
+
+                <!-- Terms -->
+                <div class="field" style="margin-bottom: 24px;">
+                    <label class="remember-label">
+                        <input type="checkbox" id="remember" value="">
+                        <span>I agree to the <a href="#" class="forgot-link" style="font-size: 12px;">terms and
+                                conditions</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" name="register" class="submit-btn" style="margin-top: 10px;">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <p class="login-footer">
+            Already have an account? <a href="{% url 'login' %}">Sign In</a>
+        </p>
+
+    </div>
+</main>
+{% endblock content %}
+
+{% block javascripts %}{% endblock javascripts %}

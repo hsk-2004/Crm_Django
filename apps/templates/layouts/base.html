@@ -1,0 +1,332 @@
+<!--
+
+=========================================================
+* Volt Free - Bootstrap 5 Dashboard
+=========================================================
+
+* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
+* Copyright 2021 Themesberg (https://www.themesberg.com)
+* License (https://themesberg.com/licensing)
+
+* Designed and coded by https://themesberg.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- Primary Meta Tags -->
+
+  <title>JSpark CRM {% block title %}{% endblock %}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="title" content="JSpark CRM">
+  <meta name="author" content="Harman Singh">
+  <meta name="description"
+    content="JSpark CRM — Manage your leads and clients with elegance. A premium dark-theme CRM built with Django.">
+  <meta name="keywords" content="jspark, crm, leads, clients, django, dashboard, management" />
+  <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-volt">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="JSpark CRM">
+  <meta property="og:description" content="JSpark CRM — Manage your leads and clients with elegance.">
+  <meta property="og:url" content="https://demo.themesberg.com/volt-pro">
+  <meta property="og:image"
+    content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="JSpark CRM">
+  <meta property="twitter:description" content="JSpark CRM — Manage your leads and clients with elegance.">
+  <meta property="twitter:url" content="https://demo.themesberg.com/volt-pro">
+  <meta property="twitter:image"
+    content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+
+  <!-- Favicon — JSpark gold "J" -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-style='italic' font-weight='400' fill='%23b8965a'>J</text></svg>">
+  <meta name="msapplication-TileColor" content="#0a0a0f">
+  <meta name="theme-color" content="#0a0a0f">
+
+  <link type="text/css" href="/static/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <link type="text/css" href="/static/assets/vendor/notyf/notyf.min.css" rel="stylesheet">
+  <link type="text/css" href="/static/assets/css/volt.css" rel="stylesheet">
+
+  <!-- ── CRM Global Dark Theme Overrides ── -->
+  <style>
+    /* Kill every white background Volt sets */
+    html,
+    body {
+      background: #0a0a0f !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Main content area */
+    main.content {
+      background: #0a0a0f !important;
+      min-height: 100vh;
+      padding-top: 0 !important;
+      /* remove any top padding gap */
+    }
+
+    /* Volt wraps content in .preloader and similar — nuke white */
+    .preloader,
+    .preloader-wrapper {
+      background: #0a0a0f !important;
+    }
+
+    /* The Volt topbar leaves a gap by adding padding-top to .content */
+    /* Reset completely — our topbar-luxury handles its own height     */
+    main.content>nav:first-child,
+    main.content>.navbar:first-child,
+    main.content>.topbar-luxury:first-child {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* Volt sets a pixel padding-top on .content to offset the sticky navbar.
+     Since we replaced the navbar, kill that padding entirely.            */
+    @media (min-width: 992px) {
+      main.content {
+        padding-top: 0 !important;
+      }
+    }
+
+    /* Remove any white flash between sidebar and content */
+    .sidebar+main.content {
+      border-left: none !important;
+    }
+
+    /* Volt card defaults */
+    .card {
+      background: #111827 !important;
+      border-color: #1f2937 !important;
+    }
+
+    /* Footer area */
+    footer,
+    .footer {
+      background: #0a0a0f !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+      color: rgba(240, 236, 228, 0.3) !important;
+    }
+
+    /* Bootstrap row/col don't add white gaps */
+    .row {
+      --bs-gutter-x: 1.5rem;
+    }
+
+    /* Volt settings sidebar */
+    .settings-sidebar {
+      background: #0f0f14 !important;
+      border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .bg-white {
+      background: #111827 !important;
+    }
+
+    .bg-light {
+      background: #111827 !important;
+    }
+
+    /* ═══════════════════════════════════════
+       GLOBAL BOLD + BRIGHT TYPOGRAPHY
+    ══════════════════════════════════════ */
+
+    /* Base body — bump weight, brighten colour */
+    body,
+    html {
+      font-weight: 400 !important;
+      color: #e8e3d8 !important;
+    }
+
+    /* All text elements — heavier & brighter */
+    p,
+    span,
+    div,
+    li,
+    td,
+    th,
+    label,
+    input,
+    select,
+    textarea,
+    a {
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Headings — strong & bright */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 600 !important;
+      color: #f0ece4 !important;
+    }
+
+    /* Page titles (Cormorant serif) — slightly heavier */
+    .page-title {
+      font-weight: 400 !important;
+      color: #f5f0e8 !important;
+    }
+
+    /* Sidebar text — brighter */
+    .sidebar .nav-link {
+      color: rgba(240, 236, 228, 0.75) !important;
+      font-weight: 400 !important;
+    }
+
+    .sidebar .nav-link:hover {
+      color: #f0ece4 !important;
+    }
+
+    .sidebar .nav-item.active>.nav-link {
+      color: #d4af74 !important;
+      font-weight: 500 !important;
+    }
+
+    .sidebar .sidebar-text {
+      font-weight: 400 !important;
+    }
+
+    .nav-section-label {
+      color: rgba(240, 236, 228, 0.5) !important;
+      font-weight: 500 !important;
+    }
+
+    /* Table cells — readable */
+    .crm-table tbody td {
+      color: rgba(240, 236, 228, 0.82) !important;
+      font-weight: 400 !important;
+    }
+
+    .crm-table thead th {
+      color: rgba(240, 236, 228, 0.55) !important;
+      font-weight: 500 !important;
+    }
+
+    .td-name {
+      color: #f0ece4 !important;
+      font-weight: 500 !important;
+    }
+
+    .td-counter,
+    .counter-cell {
+      color: rgba(184, 150, 90, 0.7) !important;
+      font-weight: 400 !important;
+    }
+
+    /* Stat card labels — brighter */
+    .stat-label {
+      color: rgba(240, 236, 228, 0.6) !important;
+      font-weight: 500 !important;
+    }
+
+    .stat-value {
+      font-weight: 400 !important;
+    }
+
+    /* Eyebrow labels */
+    .page-eyebrow {
+      color: #c9a46a !important;
+      font-weight: 500 !important;
+    }
+
+    /* Subtitles */
+    .page-subtitle {
+      color: rgba(240, 236, 228, 0.55) !important;
+      font-weight: 400 !important;
+    }
+
+    /* Topbar search input */
+    .search-input {
+      color: #f0ece4 !important;
+      font-weight: 400 !important;
+    }
+
+    .search-input::placeholder {
+      color: rgba(240, 236, 228, 0.4) !important;
+    }
+
+    .user-label {
+      color: rgba(240, 236, 228, 0.75) !important;
+      font-weight: 400 !important;
+    }
+
+    .user-label strong {
+      color: #f0ece4 !important;
+      font-weight: 600 !important;
+    }
+
+    /* Form inputs */
+    .form-control,
+    input,
+    select,
+    textarea {
+      color: #f0ece4 !important;
+      font-weight: 400 !important;
+    }
+
+    /* Footer */
+    .footer-copy,
+    .footer-luxury {
+      color: rgba(240, 236, 228, 0.5) !important;
+      font-weight: 400 !important;
+    }
+
+    /* Data card titles */
+    .data-card-title {
+      color: #f0ece4 !important;
+      font-weight: 500 !important;
+    }
+
+    /* Empty state text */
+    .empty-text,
+    .empty-state p {
+      color: rgba(240, 236, 228, 0.5) !important;
+      font-weight: 400 !important;
+    }
+  </style>
+
+  <!-- Specific Page JS goes HERE  -->
+  {% block stylesheets %}{% endblock stylesheets %}
+
+</head>
+
+<body>
+
+  {% include 'includes/sidebar.html' %}
+
+  <main class="content">
+
+    {% include 'includes/navigation.html' %}
+
+    {% block content %}{% endblock content %}
+
+    {% include 'includes/settings-box.html' %}
+
+    {% include 'includes/footer.html' %}
+
+  </main>
+
+  {% include 'includes/scripts.html' %}
+
+  <!-- Specific Page JS goes HERE  -->
+  {% block javascripts %}{% endblock javascripts %}
+
+</body>
+
+</html>
